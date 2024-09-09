@@ -33,7 +33,7 @@ public class MainTest {
         mockedUtil.when(Util::getAnimals).thenReturn(testAnimals);
 
         List<Animal> result = Main.task1();
-        assertEquals(TestData.getExpectedData(), result);
+        assertEquals(TestData.getExpectedDataTask1(), result);
     }
     @Test
     public void testTask1WithEmptyList() {
@@ -45,5 +45,60 @@ public class MainTest {
         assertEquals(TestData.getEmptyListAnimals(), result);
     }
 
+    @Test
+    public void testTask2() {
+        List<Animal> testAnimals = TestData.getTestAnimals();
+
+        mockedUtil.when(Util::getAnimals).thenReturn(testAnimals);
+
+        List<String> result = Main.task2();
+        assertEquals(TestData.getExpectedDataTask2(), result);
+    }
+    @Test
+    public void testTask3() {
+        List<Animal> testAnimals = TestData.getTestAnimals();
+
+        mockedUtil.when(Util::getAnimals).thenReturn(testAnimals);
+
+        List<String> result = Main.task3();
+        assertEquals(TestData.getExpectedDataTask3(), result);
+    }
+    @Test
+    public void testTask4() {
+        List<Animal> testAnimals = TestData.getTestAnimals();
+
+        mockedUtil.when(Util::getAnimals).thenReturn(testAnimals);
+
+        long result = Main.task4();
+        assertEquals(TestData.getExpectedDataTask4(), result);
+    }
+    @Test
+    public void testTask5() {
+        List<Animal> testAnimals = TestData.getTestAnimals();
+
+        mockedUtil.when(Util::getAnimals).thenReturn(testAnimals);
+
+        boolean result = Main.task5();
+        assertEquals(TestData.getExpectedDataTask5(), result);
+    }
+    @Test
+    public void testTask6() {
+        List<Animal> testAnimals = TestData.getTestAnimals();
+
+        mockedUtil.when(Util::getAnimals).thenReturn(testAnimals);
+
+        long result = Main.task6();
+        assertEquals(TestData.getExpectedDataTask6(), result);
+    }
+
+    @Test
+    public void testTask7() {
+        List<Animal> testAnimals = TestData.getTestAnimals();
+
+        mockedUtil.when(Util::getAnimals).thenReturn(testAnimals);
+
+        boolean result = Main.task7();
+        assertEquals(TestData.getExpectedDataTask7(), result);
+    }
 }
 
