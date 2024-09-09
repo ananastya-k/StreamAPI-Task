@@ -491,6 +491,7 @@ public class Main {
      */
     public static void task21() {
         List<Student> students = Util.getStudents();
+
         Map<String,Long> studentGroupSizes = students.stream()
                 .collect(Collectors.groupingBy(Student::getGroup, Collectors.counting()));
 
@@ -499,8 +500,17 @@ public class Main {
 
     }
 
+    /**
+     *  Определение минимального возраста для каждого факультета.
+     */
     public static void task22() {
         List<Student> students = Util.getStudents();
-//        students.stream() Продолжить ...
+
+        Map<String, Optional<Integer>> minimumAgeByFaculty = students.stream()
+                .collect(Collectors.groupingBy(Student::getFaculty,
+                         Collectors.mapping(Student::getAge, Collectors.minBy(Integer::compareTo))));
+
+        minimumAgeByFaculty.forEach((faculty, optionalAge) ->
+                System.out.printf("%s = %s%n", faculty, optionalAge.map(String::valueOf).orElse("No Data")));
     }
 }
