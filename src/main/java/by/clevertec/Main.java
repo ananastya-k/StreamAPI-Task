@@ -9,6 +9,7 @@ import by.clevertec.model.Person;
 import by.clevertec.model.Student;
 import by.clevertec.util.Util;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class Main {
@@ -38,9 +39,27 @@ public class Main {
         task22();
     }
 
-    public static void task1() {
+    /**
+     * Из представленных животных отобрать все молодые особи от 10 до 20 лет
+     * и отсортировать по возрасту (по возрастанию)
+     * далее - распределить по 7 на каждый зоопарк.
+     * Зоопарков неограниченное кол-во, а вы - директор 3-го по счёту зоопарка.
+     * Полученных животных вывести в консоль.
+     */
+
+    public static List<Animal> task1() {
         List<Animal> animals = Util.getAnimals();
-//        animals.stream() Продолжить ...
+        int animalsInZoo = 7;
+        List<Animal> animalsAtThirdZoo = animals.stream()
+                .filter(animal -> animal.getAge() > 10 && animal.getAge() < 20)
+                .sorted(Comparator.comparing(Animal::getAge))
+                .skip(2 * animalsInZoo)
+                .limit(animalsInZoo)
+                .toList();
+
+        animalsAtThirdZoo.forEach(System.out::println);
+        return animalsAtThirdZoo;
+
     }
 
     public static void task2() {
