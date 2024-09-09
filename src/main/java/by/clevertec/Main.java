@@ -276,7 +276,8 @@ public class Main {
 
         houses.stream()
                 .flatMap(house -> house.getPersonList().stream()
-                        .map(person -> new AbstractMap.SimpleEntry<>(settingPriority(house.getBuildingType(), person), person)))
+                        .map(person -> new AbstractMap.SimpleEntry<>(
+                                settingPriority(house.getBuildingType(), person), person)))
                 .sorted(Map.Entry.comparingByKey())
                 .map(Map.Entry::getValue)
                 .limit(countForEvacuation)
@@ -293,9 +294,66 @@ public class Main {
         }
         return 3;
     }
+
+    /**
+     * Из перечня автомобилей приходящих на рынок Азии логистическому агентству предстоит
+     * отсортировать их в порядке следования
+     * 1.Туркменистан - 2.Узбекистан - 3.Казахстан - 4.Кыргызстан - 5.Россия - 6.Монголия.
+     * Все автомобили марки "Jaguar" а так же все авто цвета White идут в первую страну.
+     * Из оставшихся все автомобили с массой до 1500 кг и марок BMW, Lexus, Chrysler и Toyota идут во второй эшелон.
+     * Из оставшихся все автомобили Черного цвета с массой более 4000 кг и все GMC и Dodge идут в третий эшелон.
+     * Из оставшихся все автомобили года выпуска до 1982 или все модели "Civic" и "Cherokee" идут в четвёртый эшелон.
+     * Из оставшихся все автомобили цветов НЕ Yellow, Red, Green и Blue или же по стоимости дороже 40000 в пятый эшелон
+     * Из оставшиеся все автомобили в vin номере которых есть цифра "59" идут в последний шестой эшелон.
+     * Оставшиеся автомобили отбрасываем, они никуда не идут.
+     * Измерить суммарные массы автомобилей всех эшелонов для каждой из стран
+     * и подсчитать сколько для каждой страны будет стоить транспортные расходы
+     * если учесть что на 1 тонну транспорта будет потрачено 7.14 $.
+     * Вывести суммарные стоимости в консоль. Вывести общую выручку логистической кампании.
+     */
     public static void task14() {
         List<Car> cars = Util.getCars();
-//        cars.stream() Продолжить ...
+
+        double revenue = cars.stream()
+                .collect(Collectors.groupingBy(Main::determineCarCategory))
+                .entrySet()
+                .stream()
+                .filter(esh -> esh.getKey() != 0)
+                .mapToDouble(esh -> {
+                    double totalWeight = (double) esh.getValue().stream().mapToInt(Car::getMass).sum() /1000;
+                    double transportCosts = totalWeight * 7.14;
+
+                    System.out.printf("Group %d : cost %.2f\n",esh.getKey(), transportCosts);
+                    return esh.getValue().stream().mapToInt(Car::getPrice).sum() - transportCosts;
+                })
+                .sum();
+
+        System.out.printf("revenue = %.2f\n", revenue);
+
+    }
+    public static int determineCarCategory(Car car) {
+        List<String> secondEchelon = new ArrayList<>(Arrays.asList("BMW", "Chrysler", "Lexus", "Toyota"));
+        List<String> thirdEchelon = new ArrayList<>(Arrays.asList("GMC", "Dodge"));
+        List<String> forthEchelon = new ArrayList<>(Arrays.asList("Civic", "Cherokee"));
+
+        if (car.getCarMake().equals("Jaguar") || car.getColor().equals("White")) {
+            return 1;
+        }
+        if (secondEchelon.contains(car.getCarMake()) || car.getMass() < 1500) {
+            return 2;
+        }
+        if ((car.getColor().equals("Black") && car.getMass()>4000) || thirdEchelon.contains(car.getCarMake())) {
+            return 3;
+        }
+        if (car.getReleaseYear() < 1982 || forthEchelon.contains(car.getCarModel())) {
+            return 4;
+        }
+        if (!Arrays.asList("Yellow", "Red", "Green", "Blue").contains(car.getColor()) || car.getPrice() > 40000) {
+            return 5;
+        }
+        if (car.getVin().endsWith("59")) {
+            return 6;
+        }else return 0;
     }
 
     public static void task15() {
