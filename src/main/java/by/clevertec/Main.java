@@ -429,10 +429,21 @@ public class Main {
                 .forEach(System.out::println);
     }
 
+    /**
+     * Определение среднего возраста студентов для каждого факультета.
+     * Выводить название факультета и средний возраст в порядке убывания возраста.
+     */
     public static void task18() {
         List<Student> students = Util.getStudents();
-        List<Examination> examinations = Util.getExaminations();
-//        students.stream() Продолжить ...
+
+        students.stream()
+                .collect(Collectors.groupingBy(Student::getFaculty,
+                Collectors.averagingDouble(Student::getAge)))
+                .entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .forEach(System.out::println);
+
     }
 
     public static void task19() {
