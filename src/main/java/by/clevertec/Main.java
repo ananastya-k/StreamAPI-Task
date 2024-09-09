@@ -70,7 +70,7 @@ public class Main {
     public static List<String> task2() {
         List<Animal> animals = Util.getAnimals();
 
-        List<String> list = animals.stream()
+        List<String> breeds = animals.stream()
                 .filter(animal -> animal.getOrigin().equalsIgnoreCase("Japanese"))
                 .peek(animal -> {
                     if (animal.getGender().equalsIgnoreCase("Female")) {
@@ -80,13 +80,27 @@ public class Main {
                 .map(Animal::getBread)
                 .toList();
 
-        list.forEach(System.out::println);
-        return list;
+        breeds.forEach(System.out::println);
+        return breeds;
     }
 
-    public static void task3() {
+    /**
+     * Отобрать всех животных старше 30 лет
+     * и вывести все страны происхождения без дубликатов начинающиеся на "A"
+     */
+    public static List<String> task3() {
         List<Animal> animals = Util.getAnimals();
-//        animals.stream() Продолжить ...
+
+        List<String> countriesStartWithA = animals.stream()
+                .filter(animal -> animal.getAge() > 30)
+                .map(Animal::getOrigin)
+                .filter(origin -> origin.startsWith("A"))
+                .distinct()
+                .toList();
+
+        countriesStartWithA.forEach(System.out::println);
+        return countriesStartWithA;
+
     }
 
     public static void task4() {
