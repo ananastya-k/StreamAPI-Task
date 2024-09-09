@@ -486,10 +486,17 @@ public class Main {
                 .ifPresent(System.out::println);
     }
 
-
+    /**
+     * Определение количества студентов в каждой группе.
+     */
     public static void task21() {
         List<Student> students = Util.getStudents();
-//        students.stream() Продолжить ...
+        Map<String,Long> studentGroupSizes = students.stream()
+                .collect(Collectors.groupingBy(Student::getGroup, Collectors.counting()));
+
+        studentGroupSizes.forEach((group, count) ->
+                System.out.printf("Group %s: %d students%n", group, count));
+
     }
 
     public static void task22() {
