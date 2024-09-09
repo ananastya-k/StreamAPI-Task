@@ -36,7 +36,7 @@ public class Main {
         task16();
         task17();
         task18();
-        task19();
+        task19("P-1");
         task20();
         task21();
         task22();
@@ -446,9 +446,22 @@ public class Main {
 
     }
 
-    public static void task19() {
+    /**
+     *  Вывод списка студентов заданной группы, у которых сдан 3 экзамен (>4).
+     */
+    public static void task19(String group) {
         List<Student> students = Util.getStudents();
-//        students.stream() Продолжить ...
+        List<Examination> exams = Util.getExaminations();
+
+        List<Student> groupStudents = students.stream()
+                .filter(student -> student.getGroup().equals(group))
+                .filter(student -> exams.stream()
+                        .filter( ex -> ex.getStudentId() == student.getId())
+                        .mapToInt(Examination::getExam3)
+                        .anyMatch(value -> value > 4))
+                .toList();
+
+        System.out.printf("%n%s : %n%s", group, groupStudents);
     }
 
     public static void task20() {
