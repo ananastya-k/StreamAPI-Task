@@ -9,6 +9,9 @@ import by.clevertec.model.Person;
 import by.clevertec.model.Student;
 import by.clevertec.util.Util;
 
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Comparator;
 import java.util.List;
 import java.util.OptionalInt;
@@ -237,10 +240,27 @@ public class Main {
         return avgAgeIndonesianAnimals;
     }
 
-
+    /**
+     * Во Французский легион принимают людей со всего света,
+     * но есть отбор по полу (только мужчины) возраст от 18 до 27 лет.
+     * Преимущество отдаётся людям военной категории 1,
+     * на втором месте - военная категория 2, и на третьем месте военная категория 3.
+     *
+     * Отсортировать всех подходящих кандидатов в порядке их приоритета по военной категории.
+     * Однако взять на обучение академия может только 200 человек. Вывести их в консоль.
+     */
     public static void task12() {
         List<Person> persons = Util.getPersons();
-//        persons.stream() Продолжить ...
+        persons.stream()
+                .filter(person -> person.getGender().equals("Male"))
+                .filter(person -> (getYears(person) >= 18) && (getYears(person) <= 27))
+                .sorted(Comparator.comparingInt(Person::getRecruitmentGroup))
+                .limit(200)
+                .forEach(person -> System.out.printf("%s | %d | %s\n",person.getGender(),person.getRecruitmentGroup(),person.getDateOfBirth()));
+    }
+
+    private static double getYears(Person person) {
+        return Period.between(person.getDateOfBirth(), LocalDate.now()).getYears();
     }
 
     public static void task13() {
