@@ -185,9 +185,22 @@ public class Main {
         return maxAge;
     }
 
-    public static void task9() {
+    /**
+     * Взять всех животных.
+     * Преобразовать их в породы, а породы в []char
+     * Вывести в консоль длину самого короткого массива
+     */
+    public static int task9() {
         List<Animal> animals = Util.getAnimals();
-//        animals.stream() Продолжить ...
+
+        int minCharArrayLength = animals.stream()
+                .map(animal -> animal.getBread().toCharArray())
+                .map(charA -> charA.length)
+                .min(Comparator.naturalOrder())
+                .orElse(0);
+
+        System.out.println("minCharArrayLength = " + minCharArrayLength);
+        return minCharArrayLength;
     }
 
     public static void task10() {
