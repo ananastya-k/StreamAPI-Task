@@ -134,9 +134,20 @@ public class Main {
         return isThereOldHungarian;
     }
 
-    public static void task6() {
+    /**
+     * Взять всех животных.
+     * Все ли они пола Male и Female ?
+     * Ответ вывести в консоль
+     */
+    public static long task6() {
         List<Animal> animals = Util.getAnimals();
-//        animals.stream() Продолжить ...
+
+        long countAnimalsOtherGender = animals.stream()
+                .filter(animal -> !animal.getGender().equals("Male") && !animal.getGender().equals("Female"))
+                .count();
+
+        System.out.println("countAnimalsOtherGender = " + countAnimalsOtherGender);
+        return countAnimalsOtherGender;
     }
 
     public static void task7() {
