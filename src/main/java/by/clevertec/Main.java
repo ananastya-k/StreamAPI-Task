@@ -219,10 +219,24 @@ public class Main {
         return totalAnimalAge;
     }
 
-    public static void task11() {
+    /**
+     * Взять всех животных.
+     * Подсчитать средний возраст всех животных из индонезии (Indonesian).
+     * Вывести результат в консоль
+     */
+    public static double task11() {
         List<Animal> animals = Util.getAnimals();
-//        animals.stream() Продолжить ...
+
+        double avgAgeIndonesianAnimals = animals.stream()
+                    .filter(animal -> animal.getOrigin().equals("Indonesian"))
+                    .mapToInt(Animal::getAge)
+                    .average()
+                    .orElse(0);
+
+        System.out.println("avgAgeIndonesianAnimals = " + avgAgeIndonesianAnimals);
+        return avgAgeIndonesianAnimals;
     }
+
 
     public static void task12() {
         List<Person> persons = Util.getPersons();
