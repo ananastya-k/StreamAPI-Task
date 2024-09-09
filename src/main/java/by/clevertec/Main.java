@@ -461,13 +461,31 @@ public class Main {
                         .anyMatch(value -> value > 4))
                 .toList();
 
-        System.out.printf("%n%s : %n%s", group, groupStudents);
+        System.out.printf("%n%s : %n%s%n", group, groupStudents);
     }
 
+    /**
+     * Определение факультета с максимальной средней оценкой по первому экзамену.
+     */
     public static void task20() {
         List<Student> students = Util.getStudents();
-//        students.stream() Продолжить ...
+        List<Examination> exams = Util.getExaminations();
+
+        Map<String, Double> facultyAverageScores = students.stream()
+                .collect(Collectors.groupingBy(Student::getFaculty,
+                        Collectors.averagingDouble(student -> exams.stream()
+                                .filter(e -> student.getId() == e.getStudentId())
+                                .findFirst()
+                                .map(Examination::getExam1)
+                                .orElse(0))));
+
+
+        facultyAverageScores.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .ifPresent(System.out::println);
     }
+
 
     public static void task21() {
         List<Student> students = Util.getStudents();
