@@ -46,10 +46,10 @@ public class Main {
      * Зоопарков неограниченное кол-во, а вы - директор 3-го по счёту зоопарка.
      * Полученных животных вывести в консоль.
      */
-
     public static List<Animal> task1() {
         List<Animal> animals = Util.getAnimals();
         int animalsInZoo = 7;
+
         List<Animal> animalsAtThirdZoo = animals.stream()
                 .filter(animal -> animal.getAge() > 10 && animal.getAge() < 20)
                 .sorted(Comparator.comparing(Animal::getAge))
@@ -62,9 +62,26 @@ public class Main {
 
     }
 
-    public static void task2() {
+    /**
+     * Отобрать всех животных из Японии (Japanese)
+     * и записать породу UPPER_CASE в если пол Female
+     * преобразовать к строкам породы животных и вывести в консоль
+     */
+    public static List<String> task2() {
         List<Animal> animals = Util.getAnimals();
-//        animals.stream() Продолжить ...
+
+        List<String> list = animals.stream()
+                .filter(animal -> animal.getOrigin().equalsIgnoreCase("Japanese"))
+                .peek(animal -> {
+                    if (animal.getGender().equalsIgnoreCase("Female")) {
+                        animal.setBread(animal.getBread().toUpperCase());
+                    }
+                })
+                .map(Animal::getBread)
+                .toList();
+
+        list.forEach(System.out::println);
+        return list;
     }
 
     public static void task3() {
