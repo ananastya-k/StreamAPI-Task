@@ -12,9 +12,8 @@ import by.clevertec.util.Util;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Comparator;
-import java.util.List;
-import java.util.OptionalInt;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -251,6 +250,7 @@ public class Main {
      */
     public static void task12() {
         List<Person> persons = Util.getPersons();
+
         persons.stream()
                 .filter(person -> person.getGender().equals("Male"))
                 .filter(person -> (getYears(person) >= 18) && (getYears(person) <= 27))
@@ -263,11 +263,36 @@ public class Main {
         return Period.between(person.getDateOfBirth(), LocalDate.now()).getYears();
     }
 
+    /**
+     * Надвигается цунами и в районе эвакуации требуется
+     * в первую очередь обойти дома и эвакуировать больных и раненых (из Hospital),
+     * во вторую очередь детей и стариков (до 18 и пенсионного возраста) а после всех остальных.
+     * В первый этап эвакуации мест в эвакуационном транспорте только 500.
+     * Вывести всех людей попадающих в первый этап эвакуации в порядке приоритета (в консоль).
+     */
     public static void task13() {
         List<House> houses = Util.getHouses();
-//        houses.stream() Продолжить ...
+        int countForEvacuation = 500;
+
+        houses.stream()
+                .flatMap(house -> house.getPersonList().stream()
+                        .map(person -> new AbstractMap.SimpleEntry<>(settingPriority(house.getBuildingType(), person), person)))
+                .sorted(Map.Entry.comparingByKey())
+                .map(Map.Entry::getValue)
+                .limit(countForEvacuation)
+                .forEach(System.out::println);
+
     }
 
+    public static int settingPriority(String buildingType, Person person) {
+        if (buildingType.equals("Hospital")) {
+            return 1;
+        }
+        if ( getYears(person) < 18 ||  getYears(person) > 64) {
+            return 2;
+        }
+        return 3;
+    }
     public static void task14() {
         List<Car> cars = Util.getCars();
 //        cars.stream() Продолжить ...
