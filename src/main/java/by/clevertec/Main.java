@@ -150,9 +150,19 @@ public class Main {
         return countAnimalsOtherGender;
     }
 
-    public static void task7() {
+    /**
+     * Взять всех животных.
+     * Узнать что ни одно из них не имеет страну происхождения Oceania.
+     * Ответ вывести в консоль
+     */
+    public static boolean task7() {
         List<Animal> animals = Util.getAnimals();
-//        animals.stream() Продолжить ...
+
+        boolean isFromOceania = animals.stream()
+                .anyMatch(animal -> animal.getOrigin().equals("Oceania"));
+
+        System.out.println("isFromOceania = " + isFromOceania);
+        return isFromOceania;
     }
 
     public static void task8() {
