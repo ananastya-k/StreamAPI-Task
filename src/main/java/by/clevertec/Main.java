@@ -404,9 +404,17 @@ public class Main {
         return name.charAt(0) >= 'C' && name.charAt(0) <= 'S';
     }
 
+
+    /**
+     * Вывод списка студентов младше 18 лет в алфавитном порядке с указанием возраста
+     */
     public static void task16() {
         List<Student> students = Util.getStudents();
-//        students.stream() Продолжить ...
+
+        students.stream()
+                .filter(student -> student.getAge() < 18)
+                .sorted(Comparator.comparing(Student::getSurname))
+                .forEach(student -> System.out.println(student.getSurname() + " - " + student.getAge()));
     }
 
     public static void task17() {
