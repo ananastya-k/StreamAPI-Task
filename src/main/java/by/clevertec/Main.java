@@ -114,13 +114,24 @@ public class Main {
                 .filter(animal -> animal.getGender().equals("Female"))
                 .count();
 
-        System.out.println("femaleCnt = " + countFemaleAnimals);
+        System.out.println("countFemaleAnimals = " + countFemaleAnimals);
         return countFemaleAnimals;
     }
 
-    public static void task5() {
+    /**
+     * Взять всех животных возрастом 20 - 30 лет.
+     * Есть ли среди нах хоть один из страны Венгрия (Hungarian)?
+     * Ответ вывести в консоль
+     */
+    public static boolean task5() {
         List<Animal> animals = Util.getAnimals();
-//        animals.stream() Продолжить ...
+
+        boolean isThereOldHungarian = animals.stream()
+                .filter(animal -> animal.getAge() > 20 && animal.getAge() < 30)
+                .anyMatch(origin -> origin.getOrigin().equals("Hungarian"));
+
+        System.out.println("isThereOldHungarian = " + isThereOldHungarian);
+        return isThereOldHungarian;
     }
 
     public static void task6() {
