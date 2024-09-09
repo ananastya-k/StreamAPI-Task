@@ -417,9 +417,16 @@ public class Main {
                 .forEach(student -> System.out.println(student.getSurname() + " - " + student.getAge()));
     }
 
+    /**
+     * Вывод списка групп (без повторений).
+     */
     public static void task17() {
         List<Student> students = Util.getStudents();
-//        students.stream() Продолжить ...
+
+        students.stream()
+                .map(Student::getGroup)
+                .distinct()
+                .forEach(System.out::println);
     }
 
     public static void task18() {
