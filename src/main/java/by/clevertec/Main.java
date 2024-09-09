@@ -103,9 +103,19 @@ public class Main {
 
     }
 
-    public static void task4() {
+    /**
+     * Подсчитать количество всех животных пола = Female.
+     * Вывести в консоль
+     */
+    public static long task4() {
         List<Animal> animals = Util.getAnimals();
-//        animals.stream() Продолжить ...
+
+        long countFemaleAnimals = animals.stream()
+                .filter(animal -> animal.getGender().equals("Female"))
+                .count();
+
+        System.out.println("femaleCnt = " + countFemaleAnimals);
+        return countFemaleAnimals;
     }
 
     public static void task5() {
