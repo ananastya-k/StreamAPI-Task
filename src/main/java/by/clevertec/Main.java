@@ -203,9 +203,20 @@ public class Main {
         return minCharArrayLength;
     }
 
-    public static void task10() {
+    /**
+     * Взять всех животных.
+     * Подсчитать суммарный возраст всех животных.
+     * Вывести результат в консоль
+     */
+    public static int task10() {
         List<Animal> animals = Util.getAnimals();
-//        animals.stream() Продолжить ...
+
+        int totalAnimalAge = animals.stream()
+                .mapToInt(Animal::getAge)
+                .sum();
+
+        System.out.println("totalAnimalAge = " + totalAnimalAge);
+        return totalAnimalAge;
     }
 
     public static void task11() {
