@@ -11,6 +11,7 @@ import by.clevertec.util.Util;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.OptionalInt;
 
 public class Main {
 
@@ -165,9 +166,23 @@ public class Main {
         return isFromOceania;
     }
 
-    public static void task8() {
+    /**
+     * Взять всех животных.
+     * Отсортировать их породу в стандартном порядке и взять первые 100.
+     * Вывести в консоль возраст самого старого животного
+     */
+    public static int task8() {
         List<Animal> animals = Util.getAnimals();
-//        animals.stream() Продолжить ...
+
+        int maxAge = animals.stream()
+                .sorted(Comparator.comparing(Animal::getBread))
+                .limit(100)
+                .mapToInt(Animal::getAge)
+                .max()
+                .orElse(0);
+
+        System.out.println("maxAge = " + maxAge);
+        return maxAge;
     }
 
     public static void task9() {
