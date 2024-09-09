@@ -60,6 +60,7 @@ public class Main {
                 .limit(animalsInZoo)
                 .toList();
 
+        System.out.println("\nAnimals at the third zoo:");
         animalsAtThirdZoo.forEach(System.out::println);
         return animalsAtThirdZoo;
 
@@ -83,6 +84,7 @@ public class Main {
                 .map(Animal::getBread)
                 .toList();
 
+        System.out.println("\nBreeds of Japanese animals:");
         breeds.forEach(System.out::println);
         return breeds;
     }
@@ -101,6 +103,7 @@ public class Main {
                 .distinct()
                 .toList();
 
+        System.out.println("\nCountries of origin starting with 'A':");
         countriesStartWithA.forEach(System.out::println);
         return countriesStartWithA;
 
@@ -117,7 +120,7 @@ public class Main {
                 .filter(animal -> animal.getGender().equals("Female"))
                 .count();
 
-        System.out.println("countFemaleAnimals = " + countFemaleAnimals);
+        System.out.println("\nTotal number of Female animals: " + countFemaleAnimals);
         return countFemaleAnimals;
     }
 
@@ -129,12 +132,12 @@ public class Main {
     public static boolean task5() {
         List<Animal> animals = Util.getAnimals();
 
-        boolean isThereOldHungarian = animals.stream()
+        boolean hasHungarian = animals.stream()
                 .filter(animal -> animal.getAge() > 20 && animal.getAge() < 30)
                 .anyMatch(origin -> origin.getOrigin().equals("Hungarian"));
 
-        System.out.println("isThereOldHungarian = " + isThereOldHungarian);
-        return isThereOldHungarian;
+        System.out.printf("\nIs there a Hungarian animal among those aged 20-30? %b%n", hasHungarian);
+        return hasHungarian;
     }
 
     /**
@@ -145,12 +148,12 @@ public class Main {
     public static long task6() {
         List<Animal> animals = Util.getAnimals();
 
-        long countAnimalsOtherGender = animals.stream()
+        long countOtherGender = animals.stream()
                 .filter(animal -> !animal.getGender().equals("Male") && !animal.getGender().equals("Female"))
                 .count();
 
-        System.out.println("countAnimalsOtherGender = " + countAnimalsOtherGender);
-        return countAnimalsOtherGender;
+        System.out.printf("\nNumber of animals with gender other than Male or Female: %d%n", countOtherGender);
+        return countOtherGender;
     }
 
     /**
@@ -164,7 +167,7 @@ public class Main {
         boolean isFromOceania = animals.stream()
                 .anyMatch(animal -> animal.getOrigin().equals("Oceania"));
 
-        System.out.println("isFromOceania = " + isFromOceania);
+        System.out.printf("\nIs there an animal from Oceania? %b%n", isFromOceania);
         return isFromOceania;
     }
 
@@ -183,7 +186,7 @@ public class Main {
                 .max()
                 .orElse(0);
 
-        System.out.println("maxAge = " + maxAge);
+        System.out.printf("\nAge of the oldest animal among the first 100 sorted by breed: %d%n", maxAge);
         return maxAge;
     }
 
@@ -201,7 +204,7 @@ public class Main {
                 .min(Comparator.naturalOrder())
                 .orElse(0);
 
-        System.out.println("minCharArrayLength = " + minCharArrayLength);
+        System.out.printf("\nLength of the shortest character array representing breed: %d%n", minCharArrayLength);
         return minCharArrayLength;
     }
 
@@ -213,12 +216,12 @@ public class Main {
     public static int task10() {
         List<Animal> animals = Util.getAnimals();
 
-        int totalAnimalAge = animals.stream()
+        int totalAge = animals.stream()
                 .mapToInt(Animal::getAge)
                 .sum();
 
-        System.out.println("totalAnimalAge = " + totalAnimalAge);
-        return totalAnimalAge;
+        System.out.printf("\nTotal age of all animals: %d%n", totalAge);
+        return totalAge;
     }
 
     /**
@@ -229,14 +232,14 @@ public class Main {
     public static double task11() {
         List<Animal> animals = Util.getAnimals();
 
-        double avgAgeIndonesianAnimals = animals.stream()
+        double avgAgeIndonesian = animals.stream()
                     .filter(animal -> animal.getOrigin().equals("Indonesian"))
                     .mapToInt(Animal::getAge)
                     .average()
                     .orElse(0);
 
-        System.out.println("avgAgeIndonesianAnimals = " + avgAgeIndonesianAnimals);
-        return avgAgeIndonesianAnimals;
+        System.out.printf("\nAverage age of Indonesian animals: %.2f%n", avgAgeIndonesian);
+        return avgAgeIndonesian;
     }
 
     /**
@@ -256,7 +259,8 @@ public class Main {
                 .filter(person -> (getYears(person) >= 18) && (getYears(person) <= 27))
                 .sorted(Comparator.comparingInt(Person::getRecruitmentGroup))
                 .limit(200)
-                .forEach(person -> System.out.printf("%s | %d | %s\n",person.getGender(),person.getRecruitmentGroup(),person.getDateOfBirth()));
+                .forEach(person -> System.out.printf("Gender: %s | Group: %d | DOB: %s\n",
+                        person.getGender(),person.getRecruitmentGroup(),person.getDateOfBirth()));
     }
 
     private static double getYears(Person person) {
@@ -273,7 +277,7 @@ public class Main {
     public static void task13() {
         List<House> houses = Util.getHouses();
         int countForEvacuation = 500;
-
+        System.out.println("\nEvacuated people: ");
         houses.stream()
                 .flatMap(house -> house.getPersonList().stream()
                         .map(person -> new AbstractMap.SimpleEntry<>(
@@ -314,7 +318,7 @@ public class Main {
     public static void task14() {
         List<Car> cars = Util.getCars();
 
-        double revenue = cars.stream()
+        double totalRevenue = cars.stream()
                 .collect(Collectors.groupingBy(Main::determineCarCategory))
                 .entrySet()
                 .stream()
@@ -323,12 +327,12 @@ public class Main {
                     double totalWeight = (double) esh.getValue().stream().mapToInt(Car::getMass).sum() /1000;
                     double transportCosts = totalWeight * 7.14;
 
-                    System.out.printf("Group %d : cost %.2f\n",esh.getKey(), transportCosts);
+                    System.out.printf("Echelon %d: Transport cost = %.2f%n",esh.getKey(), transportCosts);
                     return esh.getValue().stream().mapToInt(Car::getPrice).sum() - transportCosts;
                 })
                 .sum();
 
-        System.out.printf("revenue = %.2f\n", revenue);
+        System.out.printf("\nTotal revenue: %.2f%n", totalRevenue);
 
     }
     public static int determineCarCategory(Car car) {
@@ -356,9 +360,48 @@ public class Main {
         }else return 0;
     }
 
+    /**
+     * Для оранжереи нужно подобрать растения соответствующие требованиям.
+     * Во-первых, нужно произвести сложную сортировку каталога растений.
+     * Отсортировать их по странам происхождения в обратном порядке
+     * После по стоимости и еще по водопотреблению в обратном порядке.
+     * Из этого списка взять растения название которых от буквы "S" до буквы "C".
+     * Если растения тенелюбивые и им подходит горшок из стекла, алюминия или стали - то выбираем их.
+     * Далее на каждое растение надо рассчитать стоимость растения
+     * + стоимость потребления воды за 5 лет c учётом того что кубометр воды стоит 1.39 $.
+     * Суммировать общую стоимость обслуживания всех растений. Во сколько это обойдётся бюджету?
+     */
     public static void task15() {
         List<Flower> flowers = Util.getFlowers();
-//        flowers.stream() Продолжить ...
+        
+        double totalCostService  = flowers.stream()
+                .sorted(Comparator.comparing(Flower::getOrigin)
+                        .reversed()
+                        .thenComparing(Flower::getPrice)
+                        .thenComparing(Flower::getWaterConsumptionPerDay)
+                        .reversed())
+                .filter(Flower::isShadePreferred)
+                .filter(Main::checkFlower)
+                .mapToDouble(flower -> flower.getPrice() + flower.getWaterConsumptionPerDay() * 1.39 * (365 * 4 + 366))
+                .sum();
+
+
+        System.out.printf("\nTotal cost of service = %.2f\n", totalCostService);
+    }
+
+    private static boolean checkFlower(Flower flower) {
+        return checkVase(flower) && checkName(flower);
+    }
+
+    private static boolean checkVase(Flower flower) {
+        return flower.getFlowerVaseMaterial().contains("Glass")
+                || flower.getFlowerVaseMaterial().contains("Aluminum")
+                || flower.getFlowerVaseMaterial().contains("Steel");
+    }
+
+    private static boolean checkName(Flower flower) {
+        String name = flower.getCommonName().toUpperCase();
+        return name.charAt(0) >= 'C' && name.charAt(0) <= 'S';
     }
 
     public static void task16() {
