@@ -134,7 +134,7 @@ public class Main {
 
         boolean hasHungarian = animals.stream()
                 .filter(animal -> animal.getAge() > 20 && animal.getAge() < 30)
-                .anyMatch(origin -> origin.getOrigin().equals("Hungarian"));
+                .anyMatch(animal -> animal.getOrigin().equals("Hungarian"));
 
         System.out.printf("\nIs there a Hungarian animal among those aged 20-30? %b%n", hasHungarian);
         return hasHungarian;
@@ -145,15 +145,17 @@ public class Main {
      * Все ли они пола Male и Female ?
      * Ответ вывести в консоль
      */
-    public static long task6() {
+    public static boolean task6() {
         List<Animal> animals = Util.getAnimals();
+        if (animals.isEmpty()) return false;
 
         long countOtherGender = animals.stream()
                 .filter(animal -> !animal.getGender().equals("Male") && !animal.getGender().equals("Female"))
                 .count();
 
-        System.out.printf("\nNumber of animals with gender other than Male or Female: %d%n", countOtherGender);
-        return countOtherGender;
+        boolean result = countOtherGender == 0;
+        System.out.printf("\nAll animals are Male or Female? %s", result);
+        return result;
     }
 
     /**
